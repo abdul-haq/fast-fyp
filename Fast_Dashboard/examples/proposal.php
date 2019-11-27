@@ -44,46 +44,7 @@ $reject = "SELECT * FROM proposals where STATUS  = 'rejected'";
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
 
-  <script>  $(document).ready(function(){
-            function create_list(data){
-              console.log("hello");
-                var table = $('#table');
-                table.html('');
-                var table_head = $('<tr>');
-                table_head.append($('<th>').text('leader'))
-                table_head.append($('<th>').text('leader roll #'))
-                table_head.append($('<th>').text('dept'))
-                table_head.append($('<th>').text('teacher'))
-                table.append(table_head);
-                for(var x in data){
-                    var tr = $('<tr>');
-                    tr.append($('<td>').text(data[x].leader));
-                    tr.append($('<td>').text(data[x].lroll));
-                    tr.append($('<td>').text(data[x].dept));
-                    tr.append($('<td>').text(data[x].teacher));
-                    table.append(tr);
-                };
-            }
-            $.ajax({
-                url:'pfetch.php?filter=all',
-                type:'GET',
-                success:function(data){
-                    var d = JSON.parse(data);
-                    create_list(d);
-                }
-            })
-            $('#filter').on('change',function(){
-                var filter = $(this).val();
-                $.ajax({
-                url:'pfetch.php?filter='+filter,
-                type:'GET',
-                success:function(data){
-                    var d = JSON.parse(data);
-                    create_list(d);
-                }
-            })
-            })
-        })</script>
+ 
   <link rel="stylesheet" href="./general.css">
 </head>
 
@@ -174,7 +135,13 @@ $reject = "SELECT * FROM proposals where STATUS  = 'rejected'";
                   <option class="dropdown-item" value="2017">2017</option>
 
                 </div>
-
+                <select class="btn btn-primary dropdown-toggle mr-4 pull-right"  id="filter" >
+                  <option  value="all" name="">All </option>
+                  <option  value="2019">2019</option>
+                  <option  value="2018">2018</option>
+                  <option  value="2017">2017</option>
+                </select>
+                
               </div>
               <div class="card-body">
 
@@ -200,47 +167,7 @@ $reject = "SELECT * FROM proposals where STATUS  = 'rejected'";
                             </table>
 
 
-                            <?php
-
-
-                            if ($result = mysqli_query($link, $sql)) {
-                              if (mysqli_num_rows($result) > 0) {
-                                echo "<table class='table'>";
-                                echo "<thead class='text-primary'>
-              <th>Leader Name</th>
-              <th>Roll No</th>
-              <th>Department</th>
-              <th>Supervisor</th>
-              <th>Batch</th>
-              <th>Status</th>
-              <th class='text-right'>Action</th>
-            </thead>";
-                                while ($row = mysqli_fetch_array($result)) {
-                                  echo "<tbody>";
-
-                                  echo "<tr>";
-                                  echo "<td>" . $row['leader_name'] . "</td>";
-                                  echo "<td>" . $row['l_rollno'] . "</td>";
-                                  echo "<td>" . $row['dept'] . "</td>";
-                                  echo "<td>" . $row['teacher'] . "</td>";
-                                  echo "<td>" . $row['batch'] . "</td>";
-                                  echo "<td>" . $row['status'] . "</td>";
-                                  echo "<td class='text-right'><button class='btn' id=" . $row['p_id'] . "  onclick='viewProposal(this)'>View</button></td>";
-                                  echo "</tr>";
-                                  echo "</tbody>";
-                                }
-                                echo "</table>";
-
-                                mysqli_free_result($result);
-                              } else {
-                                echo "No records matching your query were found.";
-                              }
-                            } else {
-                              echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
-                            }
-
-                            ?>
-
+                           
                           </div>
                           <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <div>
@@ -250,46 +177,7 @@ $reject = "SELECT * FROM proposals where STATUS  = 'rejected'";
                             </div>
                             <br>
                             <br>
-                            <?php
-
-
-                            if ($result = mysqli_query($link, $approve)) {
-                              if (mysqli_num_rows($result) > 0) {
-                                echo "<table class='table'>";
-                                echo "<thead class='text-primary'>
-              <th>Leader Name</th>
-              <th>Roll No</th>
-              <th>Department</th>
-              <th>Supervisor</th>
-              <th>Batch</th>
-              <th>Status</th>
-              <th class='text-right'>Action</th>
-            </thead>";
-                                while ($row = mysqli_fetch_array($result)) {
-                                  echo "<tbody>";
-
-                                  echo "<tr>";
-                                  echo "<td>" . $row['leader_name'] . "</td>";
-                                  echo "<td>" . $row['l_rollno'] . "</td>";
-                                  echo "<td>" . $row['dept'] . "</td>";
-                                  echo "<td>" . $row['teacher'] . "</td>";
-                                  echo "<td>" . $row['batch'] . "</td>";
-                                  echo "<td>" . $row['status'] . "</td>";
-                                  echo "<td class='text-right'><button class='btn' id=" . $row['p_id'] . "  onclick='viewProposal(this)'>View</button></td>";
-                                  echo "</tr>";
-                                  echo "</tbody>";
-                                }
-                                echo "</table>";
-
-                                mysqli_free_result($result);
-                              } else {
-                                echo "No records matching your query were found.";
-                              }
-                            } else {
-                              echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
-                            }
-
-                            ?>
+                         
                             <!-- <table class="table">
                               <thead class=" text-primary">
                                 <th>
@@ -386,13 +274,52 @@ $reject = "SELECT * FROM proposals where STATUS  = 'rejected'";
 </html>
 
 
-
+<script>
+    $(document).ready(function() {
+      function create_list(data) {
+        console.log("hello");
+        var table = $('#table');
+        table.html('');
+        var table_head = $('<tr>');
+        table_head.append($('<th>').text('leader'))
+        table_head.append($('<th>').text('leader roll #'))
+        table_head.append($('<th>').text('dept'))
+        table_head.append($('<th>').text('teacher'))
+        table.append(table_head);
+        for (var x in data) {
+          var tr = $('<tr>');
+          tr.append($('<td>').text(data[x].leader));
+          tr.append($('<td>').text(data[x].lroll));
+          tr.append($('<td>').text(data[x].dept));
+          tr.append($('<td>').text(data[x].teacher));
+          table.append(tr);
+        };
+      }
+      $.ajax({
+        url: 'pfetch.php?filter=all',
+        type: 'GET',
+        success: function(data) {
+          var d = JSON.parse(data);
+          create_list(d);
+        }
+      })
+      $('#filter').on('change', function() {
+        var filter = $(this).val();
+        $.ajax({
+          url: 'pfetch.php?filter=' + filter,
+          type: 'GET',
+          success: function(data) {
+            var d = JSON.parse(data);
+            create_list(d);
+          }
+        })
+      })
+    })
+  </script>
 
 <script>
   function viewProposal(e) {
     console.log(e.id)
     window.location = `./ProposalDetail.php?id=${e.id}`;
   }
-
-      
-    </script>
+</script>
