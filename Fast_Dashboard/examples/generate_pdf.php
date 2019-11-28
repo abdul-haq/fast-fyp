@@ -11,28 +11,32 @@ $approve = "SELECT * FROM proposals";
 
 if($result = mysqli_query($link, $approve)){
     if(mysqli_num_rows($result) > 0){
-       
-    while($row = mysqli_fetch_array($result)){
-$dompdf->loadHtml('
+        $output = "<html>";
+        while($row = mysqli_fetch_array($result)){
+            
+            $output .= '<body>
+                        <h1>' .$row["p_id"]. '</h1>
+                        <h1>' .$row["leader_name"]. '</h1>
+                        <h1>' .$row["project_description"]. '</h1>
+                        <h1>' .$row["project_tittle"]. '</h1>
+                        <h1>' .$row["leader_name"]. '</h1>
+                        
+                        </body>';
+           
+        }
+        $output .= '</html>';
+$dompdf->loadHtml($output);
 
 
-<table border=1 align=center width=400>
-<tr><td>Name : </td>
-
-<td>'.$row['leader_name'].'</td>
-
-</tr>
-
-</table>
-');
 $dompdf->setPaper('A4', 'landscape');
 $dompdf->render();
 $dompdf->stream("",array("Attachment" => false));
 
-        }
-    }
+    
+
 }
-exit(0);
+}
+
 }
 
 ?>

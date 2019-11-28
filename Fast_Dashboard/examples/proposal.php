@@ -44,7 +44,7 @@ $reject = "SELECT * FROM proposals where STATUS  = 'rejected'";
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
 
- 
+
   <link rel="stylesheet" href="./general.css">
 </head>
 
@@ -126,7 +126,7 @@ $reject = "SELECT * FROM proposals where STATUS  = 'rejected'";
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title" style="display:inline-block"> Proposals</h4>
-                <button class="btn btn-primary dropdown-toggle mr-4 pull-right" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Batch</button>
+                <!-- <button class="btn btn-primary dropdown-toggle mr-4 pull-right" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Batch</button>
 
                 <div class="dropdown-menu" id="filter">
                   <option class="dropdown-item" value="all" name="">All </option>
@@ -134,14 +134,14 @@ $reject = "SELECT * FROM proposals where STATUS  = 'rejected'";
                   <option class="dropdown-item" value="2018">2018</option>
                   <option class="dropdown-item" value="2017">2017</option>
 
-                </div>
-                <select class="btn btn-primary dropdown-toggle mr-4 pull-right"  id="filter" >
-                  <option  value="all" name="">All </option>
-                  <option  value="2019">2019</option>
-                  <option  value="2018">2018</option>
-                  <option  value="2017">2017</option>
+                </div> -->
+                <select class="btn btn-primary dropdown-toggle mr-4 pull-right" id="filter">
+                  <option value="all" name="">All </option>
+                  <option value="2019">2019</option>
+                  <option value="2018">2018</option>
+                  <option value="2017">2017</option>
                 </select>
-                
+
               </div>
               <div class="card-body">
 
@@ -159,7 +159,7 @@ $reject = "SELECT * FROM proposals where STATUS  = 'rejected'";
                           </div>
                         </nav>
                         <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                          <div class="tab-pane fade show active" id="nav-home" value="new" name="new" role="tabpanel" aria-labelledby="nav-home-tab">
                             <br>
                             <br>
                             <table class="table table-striped" id="table">
@@ -167,17 +167,18 @@ $reject = "SELECT * FROM proposals where STATUS  = 'rejected'";
                             </table>
 
 
-                           
+
                           </div>
                           <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <div>
-                              <form action="generate_pdf.php" method="post">
+                              <form action="./generate_pdf.php" method="post">
                                 <input type="submit" value="View All" name="submit_val" class="btn btn-primary pull-right" />
                               </form>
+
                             </div>
                             <br>
                             <br>
-                         
+
                             <!-- <table class="table">
                               <thead class=" text-primary">
                                 <th>
@@ -221,16 +222,14 @@ $reject = "SELECT * FROM proposals where STATUS  = 'rejected'";
 
                               </tbody>
                             </table> -->
+                            <table class="table table-striped" id="table-approved">
 
+                            </table>
                           </div>
                           <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                            Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim
-                            occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit
-                            dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse
-                            consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod
-                            tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa
-                            non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis
-                            occaecat ex.
+                            <table class="table table-striped" id="table-rejected">
+
+                            </table>
                           </div>
 
                         </div>
@@ -275,47 +274,160 @@ $reject = "SELECT * FROM proposals where STATUS  = 'rejected'";
 
 
 <script>
-    $(document).ready(function() {
-      function create_list(data) {
-        console.log("hello");
-        var table = $('#table');
-        table.html('');
-        var table_head = $('<tr>');
-        table_head.append($('<th>').text('leader'))
-        table_head.append($('<th>').text('leader roll #'))
-        table_head.append($('<th>').text('dept'))
-        table_head.append($('<th>').text('teacher'))
-        table.append(table_head);
-        for (var x in data) {
-          var tr = $('<tr>');
-          tr.append($('<td>').text(data[x].leader));
-          tr.append($('<td>').text(data[x].lroll));
-          tr.append($('<td>').text(data[x].dept));
-          tr.append($('<td>').text(data[x].teacher));
-          table.append(tr);
-        };
+  $(document).ready(function() {
+
+    function create_list(data) {
+      console.log(data)
+
+      var table = $('#table-approved');
+      var table2 = $('#table-rejected');
+      var table3 = $('#table');
+      // var table2=$('#table-rejected');
+      // var table3=$('#table');
+      // console.log(document.getElementById('nav-profile').attributes);
+      // $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      //   var target = $(e.target).attr("href")
+      //   console.log(target);
+      // })  
+
+
+      // var table_head = $('<tr>');
+      // table_head.append($('<th>').text('leader'))
+      // table_head.append($('<th>').text('leader roll #'))
+      // table_head.append($('<th>').text('dept'))
+      // table_head.append($('<th>').text('teacher'))
+      // table.html(''); table2.html(''); table3.html('');
+
+
+      // for (var x in data) {
+
+      //   if (data[x].status == 'approved') {
+
+      //     table.append(table_head);
+      //     console.log(data[x].leader+' is '+data[x].status)
+      //     var tr = $('<tr>');
+      //     tr.append($('<td>').text(data[x].leader));
+      //     tr.append($('<td>').text(data[x].lroll));
+      //     tr.append($('<td>').text(data[x].dept));
+      //     tr.append($('<td>').text(data[x].teacher));
+      //     table.append(tr);
+      //   } else if (data[x].status == 'rejected') {
+
+      //     table2.append(table_head);
+      //     var tr = $('<tr>');
+      //     tr.append($('<td>').text(data[x].leader));
+      //     tr.append($('<td>').text(data[x].lroll));
+      //     tr.append($('<td>').text(data[x].dept));
+      //     tr.append($('<td>').text(data[x].teacher));
+      //     table2.append(tr);
+      //   } else if ((data[x].status == 'rejected') || (data[x].status == 'approved')) {
+
+      //     table3.append(table_head);
+      //     var tr = $('<tr>');
+      //     tr.append($('<td>').text(data[x].leader));
+      //     tr.append($('<td>').text(data[x].lroll));
+      //     tr.append($('<td>').text(data[x].dept));
+      //     tr.append($('<td>').text(data[x].teacher));
+      //     table3.append(tr);
+      //   }
+      // }
+      // var table = $('#table');
+      table.html('');
+      table2.html('');
+      table3.html('');
+      var table_head = $('<tr>');
+      table_head.append($('<th>').text('leader'))
+      table_head.append($('<th>').text('leader roll #'))
+      table_head.append($('<th>').text('dept'))
+      table_head.append($('<th>').text('teacher'))
+      table_head.append($('<th>').text('action'))
+
+      var table_head2 = $('<tr>');
+      table_head2.append($('<th>').text('leader'))
+      table_head2.append($('<th>').text('leader roll #'))
+      table_head2.append($('<th>').text('dept'))
+      table_head2.append($('<th>').text('teacher'))
+      table_head2.append($('<th>').text('action'))
+
+      var table_head3 = $('<tr>');
+      table_head3.append($('<th>').text('leader'))
+      table_head3.append($('<th>').text('leader roll #'))
+      table_head3.append($('<th>').text('dept'))
+      table_head3.append($('<th>').text('teacher'))
+      table_head3.append($('<th>').text('action'))
+      table.append(table_head2);
+      table2.append(table_head);
+      table3.append(table_head3)
+
+      for (var x in data) {
+        if ((data[x].status == 'approved') || (data[x].status == 'rejected')) {
+
+          var tr3 = $('<tr>');
+          tr3.append($('<td>').text(data[x].leader));
+          tr3.append($('<td>').text(data[x].lroll));
+          tr3.append($('<td>').text(data[x].dept));
+          tr3.append($('<td>').text(data[x].teacher));
+          table3.append(tr3);
+
+          if (data[x].status == 'rejected') {
+            var btn = document.createElement('input');
+            btn.type = "button";
+            btn.className = "btn";
+            btn.value = "View";
+            btn.onclick = (function(entry) {
+              return function() {
+                chooseUser(entry);
+              }
+            })(entry);
+
+            var tr2 = $('<tr>');
+            tr2.append($('<td>').text(data[x].leader));
+            tr2.append($('<td>').text(data[x].lroll));
+            tr2.append($('<td>').text(data[x].dept));
+            tr2.append($('<td>').text(data[x].teacher));
+            tr2.append($('<td>').append($(btn)));
+            table2.append(tr2);
+          }
+          if (data[x].status == 'approved') {
+
+            var tr = $('<tr>');
+            tr.append($('<td>').text(data[x].leader));
+            tr.append($('<td>').text(data[x].lroll));
+            tr.append($('<td>').text(data[x].dept));
+            tr.append($('<td>').text(data[x].teacher));
+            table.append(tr);
+          }
+        }
+
+
+
+      };
+    }
+    $.ajax({
+      url: 'pfetch.php?filter=all',
+      type: 'GET',
+      success: function(data) {
+        var d = JSON.parse(data);
+        // console.log(d)
+        create_list(d);
+
       }
+    })
+
+    $('#filter').on('change', function() {
+      var filter = $(this).val();
       $.ajax({
-        url: 'pfetch.php?filter=all',
+        url: 'pfetch.php?filter=' + filter,
         type: 'GET',
         success: function(data) {
           var d = JSON.parse(data);
+          //console.log(d)
           create_list(d);
         }
       })
-      $('#filter').on('change', function() {
-        var filter = $(this).val();
-        $.ajax({
-          url: 'pfetch.php?filter=' + filter,
-          type: 'GET',
-          success: function(data) {
-            var d = JSON.parse(data);
-            create_list(d);
-          }
-        })
-      })
     })
-  </script>
+  })
+</script>
 
 <script>
   function viewProposal(e) {
